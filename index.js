@@ -1,5 +1,4 @@
 var JiraApi = require('jira').JiraApi,
-    querystring = require('querystring'),
     _ = require('lodash');
 
 module.exports = {
