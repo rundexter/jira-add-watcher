@@ -20,5 +20,6 @@
             "title":"Is success"
         }
     ],
+    "icon": "dex-jira",
     "title": "Jira Add Watcher" /* Required.A display name for the module */
 }
