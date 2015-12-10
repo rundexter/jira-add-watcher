@@ -76,29 +76,33 @@ module.exports = {
         var issue = step.input('issue').first();
         var username = step.input('username').first();
 
-        if (issue && username) {
-
-            var jiraUri = '/issue/' + issue + '/watchers';
-            var auth = this.authParams(dexter);
-            var jira = new JiraApi(auth.protocol, auth.host, auth.port, auth.user, auth.password, auth.apiVers);
-
-
-            var options = {
-                rejectUnauthorized: this.strictSSL,
-                uri: jira.makeUri(jiraUri),
-                method: 'POST',
-                followAllRedirects: true,
-                json: true,
-                body: JSON.stringify(username)
-            };
-
-            jira.doRequest(options, function (error, response, body) {
-
-                this.processStatus(error, response, body);
-            }.bind(this));
-        } else {
+        if (!issue || !username) {
 
             this.fail('A [issue, username] inputs need for this module');
+            return;
         }
+
+        var jiraUri = '/issue/' + issue + '/watchers';
+        var auth = this.authParams(dexter);
+
+        if (!auth)
+            return;
+
+        var jira = new JiraApi(auth.protocol, auth.host, auth.port, auth.user, auth.password, auth.apiVers);
+
+
+        var options = {
+            rejectUnauthorized: this.strictSSL,
+            uri: jira.makeUri(jiraUri),
+            method: 'POST',
+            followAllRedirects: true,
+            json: true,
+            body: JSON.stringify(username)
+        };
+
+        jira.doRequest(options, function (error, response, body) {
+
+            this.processStatus(error, response, body);
+        }.bind(this));
     }
 };
