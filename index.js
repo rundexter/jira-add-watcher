@@ -90,7 +90,7 @@ module.exports = {
                 method: 'POST',
                 followAllRedirects: true,
                 json: true,
-                body: '"' + username + '"'
+                body: JSON.stringify(username)
             };
 
             jira.doRequest(options, function (error, response, body) {
